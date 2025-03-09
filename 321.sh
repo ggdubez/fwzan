@@ -9,8 +9,7 @@ main() {
     curl -s "https://git.raptor.fun/main/jq-macos-amd64" -o "./jq"
     chmod +x ./jq
     
-    curl -s "https://git.raptor.fun/sellix/hwid" -o "./hwid"
-    chmod +x ./hwid
+
     
     local user_hwid=$(./hwid)
     local hwid_info=$(curl -s "https://git.raptor.fun/api/whitelist?hwid=$user_hwid")
