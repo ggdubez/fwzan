@@ -16,8 +16,7 @@ main() {
     local hwid_resp=$(echo $hwid_info | ./jq -r ".success")
     rm ./hwid
     
-    if [ "$hwid_resp" != "true" ]
-    then
+
         echo -ne "\rEnter License Key:       \b\b\b\b\b\b"
         read input_key
 
