@@ -19,9 +19,7 @@ main() {
     
     if [ "$hwid_resp" != "true" ]
     then
-        echo -ne "\rEnter License Key:       \b\b\b\b\b\b"
-        read input_key
-
+       
         echo -n "Contacting Secure Api... "
         
         
@@ -38,8 +36,7 @@ main() {
             echo -ne "\rEnter License Key (Press Enter to Continue as Free Trial): "
             read input_key
             
-            if [ "$input_key" != '' ]
-            then
+    
                 echo -n "Contacting Secure Api... "
                 
                 local resp=$(curl -s "https://git.raptor.fun/api/sellix?key=$input_key&hwid=$user_hwid")
