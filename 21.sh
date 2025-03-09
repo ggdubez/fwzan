@@ -16,13 +16,6 @@ main() {
     local hwid_resp=$(echo $hwid_info | ./jq -r ".success")
     rm ./hwid
     
-
-        echo -ne "\rEnter License Key:       \b\b\b\b\b\b"
-        read input_key
-
-        echo -n "Contacting Secure Api... "
-        
-
         
         if [ "$resp" != 'Key Activation Complete!' ]
         then
