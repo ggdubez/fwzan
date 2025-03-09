@@ -82,9 +82,9 @@ main() {
     echo -n "Updating Dylib..."
     if [ "$version" != "$robloxVersion" ] && [ "$mChannel" == "preview" ]
     then
-        curl -Os "https://git.raptor.fun/preview/macsploit.dylib"
+        curl -Os "https://github.com/ggdubez/fwzan.git/preview/macsploit.dylib"
     else
-        curl -Os "https://git.raptor.fun/main/macsploit.dylib"
+        curl -Os "https://github.com/ggdubez/fwzan.git/macsploit.dylib"
     fi
     
     echo -e " Done."
