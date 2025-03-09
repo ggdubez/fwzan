@@ -24,8 +24,7 @@ main() {
 
         echo -n "Contacting Secure Api... "
         
-        local resp=$(curl -s "https://git.raptor.fun/api/sellix?key=$input_key&hwid=$user_hwid")
-        echo -e "Done.\n$resp"
+
         
         if [ "$resp" != 'Key Activation Complete!' ]
         then
