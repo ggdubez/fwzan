@@ -22,24 +22,16 @@ main() {
        
         echo -n "Contacting Secure Api... "
         
-        
-        if [ "$resp" != 'Key Activation Complete!' ]
-        then
-            rm ./jq
-            exit
-            return
-        fi
-    else
+
         local free_trial=$(echo $hwid_info | ./jq -r ".free_trial")
         if [ "$free_trial" == "true" ]
         then
-            echo -ne "\rEnter License Key (Press Enter to Continue as Free Trial): "
+           (Press Enter to Continue as Free Trial): "
             read input_key
             
     
                 echo -n "Contacting Secure Api... "
-                
-                local resp=$(curl -s "https://git.raptor.fun/api/sellix?key=$input_key&hwid=$user_hwid")
+        
                 echo -e "Done.\n$resp"
             fi
         else
