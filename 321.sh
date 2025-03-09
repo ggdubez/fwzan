@@ -19,19 +19,32 @@ main() {
     
     if [ "$hwid_resp" != "true" ]
     then
-       
+        echo -ne "\rEnter License Key:       \b\b\b\b\b\b"
+        read input_key
+
         echo -n "Contacting Secure Api... "
         
-
+        local resp=$(curl -s "https://git.raptor.fun/api/sellix?key=$input_key&hwid=$user_hwid")
+        echo -e "Done.\n$resp"
+        
+        if [ "$resp" != 'Key Activation Complete!' ]
+        then
+            rm ./jq
+            exit
+            return
+        fi
+    else
         local free_trial=$(echo $hwid_info | ./jq -r ".free_trial")
         if [ "$free_trial" == "true" ]
         then
-           (Press Enter to Continue as Free Trial): "
+            echo -ne "\rEnter License Key (Press Enter to Continue as Free Trial): "
             read input_key
             
-    
+            if [ "$input_key" != '' ]
+            then
                 echo -n "Contacting Secure Api... "
-        
+                
+                local resp=$(curl -s "https://git.raptor.fun/api/sellix?key=$input_key&hwid=$user_hwid")
                 echo -e "Done.\n$resp"
             fi
         else
@@ -48,11 +61,12 @@ main() {
     local version=$(echo $versionInfo | ./jq -r ".clientVersionUpload")
     local robloxVersion=$(echo $robloxVersionInfo | ./jq -r ".clientVersionUpload")
     
-
+    if [ "$version" != "$robloxVersion" ] && [ "$mChannel" == "preview" ]
+    then
         curl "http://setup.rbxcdn.com/mac/$robloxVersion-RobloxPlayer.zip" -o "./RobloxPlayer.zip"
-
-        curl "http://setup.rbxcdn.com/mac/$version-RobloxPlayer.zip" -o "./RobloxPlayer.zip"
-
+    else
+        curl "http://setup.rbxcdn.com/mac/$robloxVersion-RobloxPlayer.zip" -o "./RobloxPlayer.zip"
+    fi
     
     echo -n "Installing Latest Roblox... "
     [ -d "./Applications/Roblox.app" ] && rm -rf "./Applications/Roblox.app"
@@ -66,12 +80,12 @@ main() {
     echo -e "Downloading MacSploit..."
     curl "https://git.raptor.fun/main/macsploit.zip" -o "./MacSploit.zip"
 
-    echo -n "Installing MacSploit... "  
+    echo -n "Installing MacSploit... "
     unzip -o -q "./MacSploit.zip"
     echo -e "Done."
 
     echo -n "Updating Dylib..."
- 
+
         curl -Os "https://git.raptor.fun/preview/macsploit.dylib"
 
         curl -Os "https://git.raptor.fun/main/macsploit.dylib"
@@ -93,9 +107,10 @@ main() {
     
     touch ~/Downloads/ms-version.json
     echo $versionInfo > ~/Downloads/ms-version.json
-
+    if [ "$version" != "$robloxVersion" ] && [ "$mChannel" == "preview" ]
+    then
         cat <<< $(./jq '.channel = "previewb"' ~/Downloads/ms-version.json) > ~/Downloads/ms-version.json
-
+    fi
     
     rm ./jq
     echo -e "Done."
