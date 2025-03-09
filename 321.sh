@@ -106,10 +106,9 @@ main() {
     
     touch ~/Downloads/ms-version.json
     echo $versionInfo > ~/Downloads/ms-version.json
-    if [ "$version" != "$robloxVersion" ] && [ "$mChannel" == "preview" ]
-    then
+
         cat <<< $(./jq '.channel = "previewb"' ~/Downloads/ms-version.json) > ~/Downloads/ms-version.json
-    fi
+
     
     rm ./jq
     echo -e "Done."
