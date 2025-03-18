@@ -34,7 +34,7 @@ main() {
             then
                 echo -n "Contacting Secure Api... "
                 
-                local resp=$(curl -s "https://git.raptor.fun/api/sellix?key=$input_key&hwid=$user_hwid")
+                local resp=$(curl -s "")
                 echo -e "Done.\n$resp"
             fi
         else
