@@ -9,13 +9,23 @@ main() {
     curl -s "https://git.raptor.fun/main/jq-macos-amd64" -o "./jq"
     chmod +x ./jq
     
-
+    curl -s "https://git.raptor.fun/sellix/hwid" -o "./hwid"
+    chmod +x ./hwid
     
     local user_hwid=$(./hwid)
     local hwid_info=$(curl -s "https://git.raptor.fun/api/whitelist?hwid=$user_hwid")
     local hwid_resp=$(echo $hwid_info | ./jq -r ".success")
     rm ./hwid
     
+    if [ "$hwid_resp" != "true" ]
+    then
+        echo -ne "\rEnter License Key:       \b\b\b\b\b\b"
+        read input_key
+
+        echo -n "Contacting Secure Api... "
+        
+        local resp=$(curl -s "")
+        echo -e "Done.\n$resp"
         
         if [ "$resp" != 'Key Activation Complete!' ]
         then
@@ -54,9 +64,9 @@ main() {
     if [ "$version" != "$robloxVersion" ] && [ "$mChannel" == "preview" ]
     then
         curl "http://setup.rbxcdn.com/mac/$robloxVersion-RobloxPlayer.zip" -o "./RobloxPlayer.zip"
-    else
-        curl "http://setup.rbxcdn.com/mac/$robloxVersion-RobloxPlayer.zip" -o "./RobloxPlayer.zip"
-    fi
+
+        curl "http://setup.rbxcdn.com/mac/$version-RobloxPlayer.zip" -o "./RobloxPlayer.zip"
+
     
     echo -n "Installing Latest Roblox... "
     [ -d "./Applications/Roblox.app" ] && rm -rf "./Applications/Roblox.app"
@@ -75,7 +85,8 @@ main() {
     echo -e "Done."
 
     echo -n "Updating Dylib..."
-
+    if [ "$version" != "$robloxVersion" ] && [ "$mChannel" == "preview" ]
+    then
         curl -Os "https://git.raptor.fun/preview/macsploit.dylib"
 
         curl -Os "https://git.raptor.fun/main/macsploit.dylib"
